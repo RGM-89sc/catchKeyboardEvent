@@ -11,7 +11,6 @@ HHOOK keyboardHook;
 
 vector<string> keysList;  // keys what we will catch
 
-vector<string>::iterator ret;
 string eventType;
 int keysNum = 0;  // keysList length
 int i = 0;
@@ -113,7 +112,8 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
     PKBDLLHOOKSTRUCT p = (PKBDLLHOOKSTRUCT)lParam;
 
 	if (nCode >= 0) {
-        ret = std::find(keysList.begin(),keysList.end(),checkKeyTable(p->vkCode));
+        vector<string>::iterator ret =
+                std::find(keysList.begin(),keysList.end(),checkKeyTable(p->vkCode));
 
         if(eventType == "keyup"){
             if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
@@ -159,8 +159,6 @@ void setKeyboardHook() {
 	    cerr << GetLastError();
 	    exit(1);
 	}
-
-	cout << "ready to catch" << endl;
 }
 
 void catchKeys(const FunctionCallbackInfo<Value>& args){

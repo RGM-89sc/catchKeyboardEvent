@@ -52,6 +52,10 @@ function checkCatchAgain(catchAgain){
 }
 
 function catchKeys(option, callback){
+  if(typeof option !== 'object'){
+    throw 'the first argument must be a object';
+  }
+
   let eventType = checkType(option.eventType),
     keys = checkKeys(option.keys),
     catchAgain = checkCatchAgain(option.catchAgain);
@@ -60,7 +64,6 @@ function catchKeys(option, callback){
     throw 'the second argument must be a function'
   }
 
-  console.log("begin to catch keys...");
   (function catchKeysLoop(){
     if(kbhook.catchKeys(eventType, keys)) {
       kbevent.emit('keyevent', callback);
